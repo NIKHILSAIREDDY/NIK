@@ -1,0 +1,20 @@
+general:
+  artifacts:
+    - "tmp/accesslint.log"
+
+machine:
+  environment:
+    ACCESSLINT_API_TOKEN: <API token from https://accesslint.com>
+    ACCESSLINT_GITHUB_USER: <GitHub user authenticated at https://accesslint.com>
+  node:
+    version: 6.1.0
+
+dependencies:
+  override:
+    - npm install -g accesslint-cli
+    - gem install accesslint-ci
+
+test:
+  post:
+    - bundle exec rails server -d -p 3000
+    - accesslint-ci scan http://localhost:3000
